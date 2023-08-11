@@ -1,55 +1,36 @@
 'use client'
+import { todo } from 'node:test';
 import { useState, useEffect } from 'react'
 
 export default function Home() {
-  const [isActive, setIsActive] = useState(false);
-  const [isPaused, setIsPaused] = useState(true);
-  const [time, setTime] = useState(0);
+  const [name, setName] = useState<string>('');
+  const [arrayState, setArrayState] = useState<string[]>([]);
 
-  useEffect(() => {
-    let interval = null;
-
-    if (isActive && isPaused === false) {
-      interval = setInterval(() => {
-        setTime((time) => time + 10);
-      }, 10);
-    } else {
-      clearInterval(interval);
-    }
-    return () => {
-      clearInterval(interval);
-    };
-  }, [isActive, isPaused]);
-
-  const handleStart = () => {
-    setIsActive(true);
-    setIsPaused(false);
+  const addItem = (item: string) => {
+    setArrayState([...arrayState, item]);
+    setName('');
   };
 
-  const handlePauseResume = () => {
-    setIsPaused(!isPaused);
-  };
-
-  const handleReset = () => {
-    setIsActive(false);
-    setTime(0);
+  const removeItem = (index: number) => {
+    const newArray = arrayState.filter((_, i) => i !== index);
+    setArrayState(newArray);
   };
 
   return (
-    <div className='h-screen bg-gray-200 w-full flex flex-col justify-center items-center'>
-      <div className='flex flex-row'>
-        <span className="font-bold">
-          {("0" + Math.floor((time / 60000) % 60)).slice(-2)}:
-        </span>
-        <span className="font-bold">
-          {("0" + Math.floor((time / 1000) % 60)).slice(-2)}.
-        </span>
+    <div>
+
+      <div className="flex items-center border-b py-2">
+        <input value={name} onChange={(e) => setName(e.target.value)} className="border rounded-md p-2 focus:outline-none focus:ring focus:border-blue-300" type="text" aria-label="Full name" />
+        <button className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 ml-5 rounded focus:outline-none focus:ring focus:border-blue-300' onClick={() => addItem(name)}>Add Item</button>
       </div>
-      <div>
-        <button className='mr-5 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded' onClick={handleStart}>Start</button>
-        <button className='mr-5 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded' onClick={handlePauseResume}>{isPaused ? "Resume" : "Pause"}</button>
-        <button className='bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded' onClick={handleReset}>Reset</button>
-      </div>
+      <ul>
+        {arrayState.map((item, index) => (
+          <li className='flex m-3' key={index}>
+            <p className='text-gray-700 text-base leading-6'>{item}</p>
+            <button className='bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 ml-5 rounded focus:outline-none focus:ring focus:border-red-300' onClick={() => removeItem(index)}>Remove</button>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
