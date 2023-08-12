@@ -4,45 +4,25 @@ import {
   Routes,
   Route,
   Link,
-  useParams
 } from "react-router-dom";
-import Employee from "./component/Employee";
-import Ids from "./component/Ids";
+import Setting from "./component/Setting";
+import Profile from "./component/Profile";
+import Error from "./not-found";
 export default function Home() {
   return (
     <Router>
       <ul className="flex m-5 p-5">
         <li className="p-5">
-          <Link to="/ram">Ram</Link>
+          <Link to="/setting">Setting</Link>
         </li>
         <li className="p-5">
-          <Link to="/rakshman">Lakshman</Link>
-        </li>
-        <li className="p-5">
-          <Link to="/bheem">Bheem</Link>
+          <Link to="/profile">Profile</Link>
         </li>
       </ul>
-
-      <ul className="flex m-5 p-5">
-        <li className="p-5">
-          <Link to="/Idss/1">1</Link>
-        </li>
-        <li className="p-5">
-          <Link to="/Idss/2">2</Link>
-        </li>
-        <li className="p-5">
-          <Link to="/Idss/3">3</Link>
-        </li>
-        <li className="p-5">
-          <Link to="/Idss/4">4</Link>
-        </li>
-      </ul>
-
-      <hr />
 
       <Routes>
-        <Route path="/:name" element={<Employee />} />
-        <Route path="/Idss/:id" element={<Ids />} />
+        <Route path="/setting" element={<Setting />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   )
