@@ -1,18 +1,16 @@
 'use client'
-import Image from "next/image"
-import img from '@/public/image.jpg';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Form from "./component/form";
+import About from "./component/about";
+
 export default function Home() {
-
-
   return (
-    <div className=" bg-gray-200 w-full flex flex-col justify-center items-center">
-      <Image src={img} alt={""} />
-      <Image src={img} alt={""} />
-      <Image src={img} alt={""} />
-      <Image src={img} alt={""} />
-      <Image src={img} alt={""} />
-      <Image src={img} alt={""} />
-      <Image src={img} alt={""} />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Form />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+
   )
 }
