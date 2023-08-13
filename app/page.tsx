@@ -1,12 +1,15 @@
 'use client'
+import useFetch from "./hook/useFetch";
 
-import useWindowDimensions from "./hook/useWindowDimensions"
 export default function Home() {
-  const dim = useWindowDimensions()
-  console.log(dim);
+  const [data] = useFetch("https://jsonplaceholder.typicode.com/todos");
+  console.log(data)
   return (
-    <div>
-      
-    </div>
-  )
+    <>
+      {data &&
+        data.map((item) => {
+          return <p key={item.id}>{item.title}</p>;
+        })}
+    </>
+  );
 }
