@@ -1,15 +1,21 @@
 'use client'
-import useFetch from "./hook/useFetch";
+import React, { createContext, useState } from "react";
+import Themechange from "./component/themechange";
+type Theme = "light" | "dark";
+
+const ThemeContext = createContext<Theme | undefined>(undefined);
+const ThemeDispatchContext = createContext<React.Dispatch<React.SetStateAction<Theme>> | undefined>(undefined);
 
 export default function Home() {
-  const [data] = useFetch("https://jsonplaceholder.typicode.com/todos");
-  console.log(data)
+  const [theme, setTheme] = useState<Theme>('light');
+
   return (
-    <>
-      {data &&
-        data.map((item) => {
-          return <p key={item.id}>{item.title}</p>;
-        })}
-    </>
+    <ThemeContext.Provider value={theme}>
+      <ThemeDispatchContext.Provider value={setTheme}>
+        <Themechange />
+      </ThemeDispatchContext.Provider>
+    </ThemeContext.Provider>
   );
 }
+
+export { ThemeContext, ThemeDispatchContext }
