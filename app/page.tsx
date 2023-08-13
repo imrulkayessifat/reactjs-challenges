@@ -1,21 +1,20 @@
 'use client'
 import React, { createContext, useState } from "react";
-import Themechange from "./component/themechange";
-type Theme = "light" | "dark";
-
-const ThemeContext = createContext<Theme | undefined>(undefined);
-const ThemeDispatchContext = createContext<React.Dispatch<React.SetStateAction<Theme>> | undefined>(undefined);
+import Child from "./component/Child";
 
 export default function Home() {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [children, setChildren] = useState([3, 1, 2]);
+
+  function removeChild(removedId: number) {
+    setChildren(children.filter((id) => id !== removedId));
+  }
 
   return (
-    <ThemeContext.Provider value={theme}>
-      <ThemeDispatchContext.Provider value={setTheme}>
-        <Themechange />
-      </ThemeDispatchContext.Provider>
-    </ThemeContext.Provider>
+    <div className='h-screen w-full flex flex-col items-center justify-center'>
+      {children.map((id) => (
+        <Child key={id} id={id} remove={removeChild} />
+      ))}
+    </div>
   );
 }
 
-export { ThemeContext, ThemeDispatchContext }
